@@ -95,12 +95,15 @@ function App() {
         // Added 'vh-100 d-flex flex-column' to try and center vertically better if needed
         <div className="container mt-3" style={{ maxWidth: '450px' }}>
 
-            {/* Input Form Section */}
+                        {/* Input Form Section */}
             {/* Using Bootstrap bg, padding, rounded corners, margin bottom */}
             <form onSubmit={handleSubmit} className="bg-secondary p-3 rounded mb-4 shadow-sm">
               {/* Bootstrap row with gutters (spacing) and vertical alignment */}
-              <div className="row g-2 align-items-center">
+              {/* Using gy-2 for vertical gap when columns stack */}
+              <div className="row g-2 gy-2 align-items-center">
+
                 {/* Column for input: full width on smallest screens, auto width on small+ */}
+                {/* Let the input naturally take the space in the row on sm+ */}
                 <div className="col-12 col-sm">
                   <input
                     type="text"
@@ -112,12 +115,15 @@ function App() {
                     aria-label="City Name"
                   />
                 </div>
+
                 {/* Column for button: full width on smallest screens, auto width on small+ */}
+                {/* col-sm-auto makes the column only as wide as the button on sm+ */}
                 <div className="col-12 col-sm-auto">
                   <button
                     type="submit"
-                    // Bootstrap button, primary color, large size, full width on mobile
-                    className="btn btn-primary btn-lg w-100 w-sm-auto"
+                    // Bootstrap button, primary color, large size.
+                    // Make the button itself full width *within* its column container.
+                    className="btn btn-primary btn-lg w-100"
                     disabled={isLoading}
                   >
                     {/* Show spinner when loading */}
