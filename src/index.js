@@ -1,8 +1,12 @@
+// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // <-- ADD THIS LINE
+import './index.css'; // Your global styles (can override Bootstrap here)
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+// ... rest of the file
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
