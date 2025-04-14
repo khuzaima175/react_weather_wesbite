@@ -1,38 +1,86 @@
-.App {
-  text-align: center;
+/* src/App.css - Same styles as before */
+:root {
+    --bg-color: #2E3440;
+    --fg-color: #ECEFF4;
+    --accent-color: #88C0D0;
+    --temp-color: #EBCB8B;
+    --error-color: #BF616A;
+    --frame-bg-color: #3B4252;
+    --button-bg: #5E81AC;
+    --button-fg: #ECEFF4;
+    --button-hover-bg: #88C0D0;
+    --button-disabled-bg: #4C566A;
+    --input-bg: #4C566A;
+    --input-border: #434C5E;
+    --font-family: 'Helvetica', 'Arial', sans-serif;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-container {
+    width: 100%;
+    max-width: 450px;
+    background-color: transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 0 auto; /* Center the container */
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.input-section {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    background-color: var(--frame-bg-color);
+    border-radius: 6px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.city-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--fg-color);
+    outline: none;
 }
-
-.App-link {
-  color: #61dafb;
+.city-input:focus { border-color: var(--accent-color); }
+.city-input::placeholder { color: #949aa5; }
+.fetch-button {
+    padding: 8px 15px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    background-color: var(--button-bg);
+    color: var(--button-fg);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.fetch-button:hover:not(:disabled) { background-color: var(--button-hover-bg); }
+.fetch-button:disabled {
+    background-color: var(--button-disabled-bg);
+    cursor: not-allowed;
+    opacity: 0.7;
 }
+.display-section {
+    background-color: var(--frame-bg-color);
+    border-radius: 6px;
+    padding: 20px;
+    text-align: center;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loading-message { font-size: 1.1rem; color: var(--accent-color); }
+.error-message { color: var(--error-color); font-weight: bold; font-size: 1rem; padding: 10px; }
+.weather-details { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.weather-icon { width: 128px; height: 128px; object-fit: contain; margin-bottom: 10px; }
+.city-name { font-size: 1.7rem; font-weight: bold; margin: 5px 0; }
+.temperature { font-size: 3.5rem; font-weight: bold; color: var(--temp-color); margin: 5px 0; }
+.description { font-size: 1.2rem; text-transform: capitalize; margin-bottom: 15px; }
+.details-grid { display: flex; justify-content: center; gap: 30px; font-size: 0.95rem; margin-bottom: 15px; width: 100%; }
+.feels-like, .humidity { margin: 0; color: var(--fg-color); }
+.datetime { font-size: 0.85rem; color: var(--accent-color); margin-top: 10px; }

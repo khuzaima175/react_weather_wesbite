@@ -1,3 +1,4 @@
+/* src/index.css */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,6 +6,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #2E3440; /* Base background */
+  color: #ECEFF4;       /* Base text color */
+  padding-top: 30px;     /* Add space at the top */
 }
 
 code {
