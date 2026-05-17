@@ -1,17 +1,58 @@
-/* src/index.css */
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #2E3440; /* Base background */
-  color: #ECEFF4;       /* Base text color */
-  padding-top: 30px;     /* Add space at the top */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --font: 'Inter', sans-serif;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+[data-theme="dark"] {
+  --bg-overlay: rgba(5, 8, 20, 0.55);
+  --glass-bg: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+  --glass-hover: rgba(255,255,255,0.10);
+  --text-primary: #f1f5f9;
+  --text-secondary: rgba(241,245,249,0.65);
+  --text-muted: rgba(241,245,249,0.38);
+  --accent: #60a5fa;
+  --accent-warm: #fbbf24;
+  --shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.55);
+  --scrollbar: rgba(255,255,255,0.12);
+  --error-bg: rgba(239,68,68,0.15);
+  --error-border: rgba(239,68,68,0.4);
 }
+
+[data-theme="light"] {
+  --bg-overlay: rgba(240,248,255,0.45);
+  --glass-bg: rgba(255,255,255,0.62);
+  --glass-border: rgba(0,0,0,0.09);
+  --glass-hover: rgba(255,255,255,0.82);
+  --text-primary: #0f172a;
+  --text-secondary: rgba(15,23,42,0.65);
+  --text-muted: rgba(15,23,42,0.4);
+  --accent: #2563eb;
+  --accent-warm: #d97706;
+  --shadow: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,0.18);
+  --scrollbar: rgba(0,0,0,0.12);
+  --error-bg: rgba(239,68,68,0.08);
+  --error-border: rgba(239,68,68,0.3);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 99px; }
