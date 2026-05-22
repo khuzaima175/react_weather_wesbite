@@ -17,7 +17,7 @@ function SunArc({ sunrise, sunset, current, timezone }) {
 
   const arcD = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
   const progressD = progress > 0
-    ? `M ${cx - r} ${cy} A ${r} ${r} 0 ${progress > 0.5 ? 1 : 0} 1 ${sunX} ${sunY}`
+    ? `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${sunX} ${sunY}`
     : '';
 
   const isDaytime = current >= sunrise && current <= sunset;
