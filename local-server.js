@@ -6,10 +6,6 @@ require('dotenv').config();
 const http = require('http');
 const url = require('url');
 
-const weatherHandler = require('./api/weather');
-const forecastHandler = require('./api/forecast');
-const aqiHandler = require('./api/aqi');
-
 const PORT = 3001;
 
 function createMockRes(res) {
@@ -26,22 +22,33 @@ function createMockRes(res) {
 }
 
 const routes = {
-  '/api/weather':  weatherHandler,
-  '/api/forecast': forecastHandler,
-  '/api/aqi':      aqiHandler,
+  '/api/weather':       './api/weather',
+  '/api/forecast':      './api/forecast',
+  '/api/aqi':           './api/aqi',
+  '/api/autocomplete':  './api/autocomplete',
 };
 
 const server = http.createServer((req, res) => {
   const parsed = url.parse(req.url, true);
-  const handler = routes[parsed.pathname];
+  const handlerPath = routes[parsed.pathname];
 
-  if (handler) {
-    const mockReq = { query: parsed.query, method: req.method };
-    const mockRes = createMockRes(res);
-    handler(mockReq, mockRes).catch(err => {
+  if (handlerPath) {
+    try {
+      // Clear require cache for the handler so changes apply immediately in local dev
+      const resolved = require.resolve(handlerPath);
+      delete require.cache[resolved];
+      const handler = require(handlerPath);
+
+      const mockReq = { query: parsed.query, method: req.method };
+      const mockRes = createMockRes(res);
+      handler(mockReq, mockRes).catch(err => {
+        console.error(err);
+        res.writeHead(500); res.end('Internal server error');
+      });
+    } catch (err) {
       console.error(err);
       res.writeHead(500); res.end('Internal server error');
-    });
+    }
   } else {
     res.writeHead(404); res.end('Not found');
   }
@@ -49,5 +56,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`\n🌤️  WeatherNow API running at http://localhost:${PORT}`);
-  console.log('   Routes: /api/weather  /api/forecast  /api/aqi\n');
+  console.log('   Routes: /api/weather  /api/forecast  /api/aqi  /api/autocomplete\n');
 });

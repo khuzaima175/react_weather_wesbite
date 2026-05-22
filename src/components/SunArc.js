@@ -31,18 +31,18 @@ function SunArc({ sunrise, sunset, current, timezone }) {
 
       <div className="sun-arc-wrap">
         <svg viewBox="0 0 240 130" className="sun-svg" aria-label="Sun position arc">
-          {/* Background arc */}
-          <path d={arcD} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" strokeLinecap="round" />
-          {/* Progress arc */}
-          {progressD && (
-            <path d={progressD} fill="none" stroke="url(#sunGrad)" strokeWidth="6" strokeLinecap="round" />
-          )}
           <defs>
             <linearGradient id="sunGrad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor="#f97316" />
               <stop offset="100%" stopColor="#fbbf24" />
             </linearGradient>
           </defs>
+          {/* Background arc */}
+          <path d={arcD} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" strokeLinecap="round" />
+          {/* Progress arc */}
+          {progressD && (
+            <path d={progressD} fill="none" stroke="url(#sunGrad)" strokeWidth="6" strokeLinecap="round" />
+          )}
           {/* Horizon line */}
           <line x1={cx - r - 10} y1={cy} x2={cx + r + 10} y2={cy} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
           {/* Sun dot */}

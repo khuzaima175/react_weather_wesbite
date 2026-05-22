@@ -198,10 +198,6 @@ function App() {
             </div>
           </main>
         )}
-
-        <footer className="app-footer">
-          <span>Powered by <a href="https://openweathermap.org" target="_blank" rel="noreferrer">OpenWeatherMap</a></span>
-        </footer>
       </div>
     </div>
   );

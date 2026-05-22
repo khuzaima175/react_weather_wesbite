@@ -7,7 +7,8 @@ function CurrentWeather({ data, units, isLoading }) {
   const condition = data.weather?.[0]?.main || '';
   const description = data.weather?.[0]?.description || '';
   const isNight = data.dt < data.sys.sunrise || data.dt > data.sys.sunset;
-  const icon = getWeatherIcon(condition, isNight);
+  const owmIconCode = data.weather?.[0]?.icon;  // e.g. "01d", "02n"
+  const fallbackIcon = getWeatherIcon(condition, isNight);
   const tz = data.timezone;
 
   return (
@@ -22,7 +23,16 @@ function CurrentWeather({ data, units, isLoading }) {
           <p className="cw-datetime">{formatTime(data.dt, tz, 'daylong')}, {formatTime(data.dt, tz, 'time')}</p>
         </div>
         <div className="cw-icon-wrap">
-          <span className="cw-icon">{icon}</span>
+          {owmIconCode ? (
+            <img
+              className="cw-icon-img"
+              src={`https://openweathermap.org/img/wn/${owmIconCode}@2x.png`}
+              alt={description}
+              title={description}
+            />
+          ) : (
+            <span className="cw-icon">{fallbackIcon}</span>
+          )}
         </div>
       </div>
 

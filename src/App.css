@@ -224,6 +224,7 @@
   border-radius: var(--radius-sm); backdrop-filter: blur(20px);
   box-shadow: var(--shadow-lg); overflow: hidden; z-index: 100;
   animation: dropdown-in 0.2s ease;
+  max-height: 320px; overflow-y: auto;
 }
 @keyframes dropdown-in { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
 .history-label { padding: 10px 16px 6px; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; }
@@ -233,8 +234,17 @@
   color: var(--text-primary); font-family: var(--font); font-size: 0.95rem;
   cursor: pointer; text-align: left; transition: background var(--transition);
 }
-.history-item:hover { background: var(--glass-hover); }
-.history-icon { opacity: 0.45; font-size: 0.85rem; }
+.history-item:hover, .history-item--active { background: var(--glass-hover); }
+.history-icon { opacity: 0.45; font-size: 0.85rem; flex-shrink: 0; }
+.suggestion-name { flex: 1; font-weight: 500; }
+.suggestion-meta { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+/* Tiny pulsing dot shown while autocomplete is fetching */
+.search-loading-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent); flex-shrink: 0;
+  animation: dot-pulse 1s ease-in-out infinite;
+}
+@keyframes dot-pulse { 0%,100%{opacity:0.3;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
 
 /* ── Error Banner ── */
 .error-banner {
@@ -281,6 +291,7 @@
 .cw-datetime { margin-top:6px;color:var(--text-secondary);font-size:0.9rem;font-weight:400; }
 .cw-icon-wrap { flex-shrink:0; }
 .cw-icon { font-size:5rem;display:block;line-height:1;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.3));animation:icon-bounce 3s ease-in-out infinite; }
+.cw-icon-img { width:100px;height:100px;display:block;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.35));animation:icon-bounce 3s ease-in-out infinite;object-fit:contain; }
 @keyframes icon-bounce { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(4deg)} }
 
 .cw-main { display:flex;align-items:center;gap:32px;margin-bottom:28px;flex-wrap:wrap; }
@@ -341,7 +352,9 @@
 .temp-bar-fill { height:100%;background:linear-gradient(90deg,#60a5fa,#fbbf24);border-radius:99px; }
 
 /* ── Weather Stats ── */
-.stats-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px; }
+/* Span the full grid width so there's no empty column gap */
+.stats-card { grid-column: 1 / -1; }
+.stats-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px; }
 .stat-card {
   display:flex;align-items:center;gap:12px;
   background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);
@@ -396,11 +409,13 @@
 @media (max-width: 768px) {
   .app-content { padding:16px 14px 32px; }
   .cw-icon { font-size:3.5rem; }
+  .cw-icon-img { width:70px;height:70px; }
   .cw-temp { font-size:4rem; }
   .cw-city { font-size:1.3rem; }
   .cw-main { gap:16px; }
   .bottom-grid { grid-template-columns:1fr; }
-  .daily-card,.sun-card,.aqi-card { grid-column:1; }
+  .daily-card,.sun-card,.aqi-card,.stats-card { grid-column:1; }
+  /* 2-col stats on tablet */
   .stats-grid { grid-template-columns:1fr 1fr; }
   .qs-divider { display:none; }
   .cw-quick-stats { gap:12px; }
@@ -409,6 +424,8 @@
 
 @media (max-width: 480px) {
   .cw-temp { font-size:3.2rem; }
+  .cw-icon-img { width:56px;height:56px; }
+  /* 2-col stats on mobile */
   .stats-grid { grid-template-columns:1fr 1fr; }
   .search-btn { padding:10px 14px;font-size:0.85rem; }
   .aqi-pollutants { grid-template-columns:1fr 1fr 1fr; }
