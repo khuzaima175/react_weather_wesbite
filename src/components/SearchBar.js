@@ -110,7 +110,9 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
           aria-label="City search"
           id="city-search-input"
           autoComplete="off"
+          role="combobox"
           aria-autocomplete="list"
+          aria-controls="search-suggestions-list"
           aria-expanded={dropdownVisible}
         />
         {isFetchingSuggestions && (
@@ -144,7 +146,7 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
       </div>
 
       {dropdownVisible && (
-        <div className="search-history" role="listbox" aria-label="Search suggestions">
+        <div className="search-history" role="listbox" aria-label="Search suggestions" id="search-suggestions-list">
           {showSuggestions ? (
             <>
               <div className="history-label">🌍 City suggestions</div>
