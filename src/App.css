@@ -296,8 +296,8 @@
 .location-pin { font-size:1.2rem; }
 .cw-datetime { margin-top:6px;color:var(--text-secondary);font-size:0.9rem;font-weight:400; }
 .cw-icon-wrap { flex-shrink:0; }
-.cw-icon { font-size:5rem;display:block;line-height:1;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.3));animation:icon-bounce 3s ease-in-out infinite; will-change: transform; }
-.cw-icon-img { width:100px;height:100px;display:block;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.35));animation:icon-bounce 3s ease-in-out infinite;object-fit:contain; will-change: transform; }
+.cw-icon { font-size:5rem;display:block;line-height:1;animation:icon-bounce 3s ease-in-out infinite; will-change: transform; }
+.cw-icon-img { width:100px;height:100px;display:block;animation:icon-bounce 3s ease-in-out infinite;object-fit:contain; will-change: transform; }
 @keyframes icon-bounce { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(4deg)} }
 
 .cw-main { display:flex;align-items:center;gap:32px;margin-bottom:28px;flex-wrap:wrap; }
@@ -463,4 +463,35 @@
   .stats-grid { grid-template-columns:1fr 1fr; }
   .search-btn { padding:10px 14px;font-size:0.85rem; }
   .aqi-pollutants { grid-template-columns:1fr 1fr 1fr; }
+}
+
+/* ── Low Performance Mode Overrides ── */
+.low-perf .glass-card,
+.low-perf .search-bar,
+.low-perf .search-history,
+.low-perf .current-weather-card,
+.low-perf .ctrl-btn {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.low-perf[data-theme="dark"],
+.low-perf [data-theme="dark"] {
+  --glass-bg: rgba(30, 41, 59, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-hover: rgba(51, 65, 85, 0.85);
+}
+
+.low-perf[data-theme="light"],
+.low-perf [data-theme="light"] {
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover: rgba(248, 250, 252, 0.95);
+}
+
+.low-perf .cw-icon,
+.low-perf .cw-icon-img,
+.low-perf .logo-icon {
+  filter: none !important;
+  animation: none !important;
 }

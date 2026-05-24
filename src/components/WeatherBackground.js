@@ -15,7 +15,7 @@ function useIsMobile() {
 }
 
 function RainDrops({ isMobile }) {
-  const drops = useMemo(() => Array.from({ length: isMobile ? 20 : 60 }, (_, i) => ({
+  const drops = useMemo(() => Array.from({ length: isMobile ? 20 : 40 }, (_, i) => ({
     id: i,
     left: `${rand(0, 100)}%`,
     delay: `${rand(0, 2)}s`,
@@ -37,7 +37,7 @@ function RainDrops({ isMobile }) {
 }
 
 function SnowFlakes({ isMobile }) {
-  const flakes = useMemo(() => Array.from({ length: isMobile ? 15 : 40 }, (_, i) => ({
+  const flakes = useMemo(() => Array.from({ length: isMobile ? 15 : 25 }, (_, i) => ({
     id: i,
     left: `${rand(0, 100)}%`,
     delay: `${rand(0, 5)}s`,
@@ -60,7 +60,7 @@ function SnowFlakes({ isMobile }) {
 }
 
 function Stars({ isMobile }) {
-  const stars = useMemo(() => Array.from({ length: isMobile ? 25 : 80 }, (_, i) => ({
+  const stars = useMemo(() => Array.from({ length: isMobile ? 25 : 50 }, (_, i) => ({
     id: i,
     left: `${rand(0, 100)}%`,
     top: `${rand(0, 60)}%`,
@@ -127,9 +127,11 @@ function StormFlash() {
   );
 }
 
-function WeatherBackground({ condition, isNight }) {
+function WeatherBackground({ condition, isNight, lowPerf }) {
   const isMobile = useIsMobile();
   const c = condition?.toLowerCase() || '';
+
+  if (lowPerf) return null;
 
   if (isNight) return <Stars isMobile={isMobile} />;
   if (c.includes('thunderstorm')) return <><RainDrops isMobile={isMobile} /><StormFlash /></>;
