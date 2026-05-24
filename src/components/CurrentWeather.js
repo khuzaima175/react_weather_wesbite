@@ -1,7 +1,17 @@
 import React from 'react';
 import { getWeatherIcon, formatTemp, formatTime, formatWind, getWindDirection } from '../utils/weatherUtils';
 
-function CurrentWeather({ data, units, isLoading }) {
+function formatLastUpdated(ts) {
+  if (!ts) return null;
+  const diffMs = Date.now() - ts;
+  const diffMin = Math.floor(diffMs / 60000);
+  if (diffMin < 1) return 'Just now';
+  if (diffMin === 1) return '1 min ago';
+  if (diffMin < 60) return `${diffMin} min ago`;
+  return `${Math.floor(diffMin / 60)}h ago`;
+}
+
+function CurrentWeather({ data, units, isLoading, lastUpdated }) {
   if (!data) return null;
 
   const condition = data.weather?.[0]?.main || '';
@@ -10,6 +20,7 @@ function CurrentWeather({ data, units, isLoading }) {
   const owmIconCode = data.weather?.[0]?.icon;  // e.g. "01d", "02n"
   const fallbackIcon = getWeatherIcon(condition, isNight);
   const tz = data.timezone;
+  const updatedLabel = formatLastUpdated(lastUpdated);
 
   return (
     <div className={`current-weather-card ${isLoading ? 'refreshing' : ''}`} id="current-weather">
@@ -21,6 +32,12 @@ function CurrentWeather({ data, units, isLoading }) {
             {data.sys?.country && <span className="cw-country">, {data.sys.country}</span>}
           </h1>
           <p className="cw-datetime">{formatTime(data.dt, tz, 'daylong')}, {formatTime(data.dt, tz, 'time')}</p>
+          {updatedLabel && (
+            <p className="cw-last-updated">
+              <span className={`cw-update-dot ${isLoading ? 'cw-update-dot--syncing' : ''}`} />
+              {isLoading ? 'Refreshing…' : `Updated ${updatedLabel}`}
+            </p>
+          )}
         </div>
         <div className="cw-icon-wrap">
           {owmIconCode ? (

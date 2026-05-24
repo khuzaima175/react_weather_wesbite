@@ -130,11 +130,9 @@ function StormFlash() {
   );
 }
 
-function WeatherBackground({ condition, isNight, lowPerf }) {
+function WeatherBackground({ condition, isNight }) {
   const isMobile = useIsMobile();
   const c = condition?.toLowerCase() || '';
-
-  if (lowPerf) return null;
 
   if (isNight) return <Stars isMobile={isMobile} />;
   if (c.includes('thunderstorm')) return <><RainDrops isMobile={isMobile} /><StormFlash /></>;

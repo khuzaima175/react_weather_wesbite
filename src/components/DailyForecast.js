@@ -20,6 +20,9 @@ function DailyForecast({ data, units, timezone }) {
               </span>
               <span className="daily-icon">{icon}</span>
               <span className="daily-desc">{day.description}</span>
+              {day.pop >= 0.05 && (
+                <span className="daily-pop">💧{Math.round(day.pop * 100)}%</span>
+              )}
               <div className="daily-temps">
                 <span className="daily-hi">{formatTemp(day.tempMax, units)}</span>
                 <div className="temp-bar-wrap">

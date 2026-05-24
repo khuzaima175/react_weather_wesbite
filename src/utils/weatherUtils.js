@@ -81,11 +81,12 @@ export const getDailyForecasts = (list, timezone) => {
     const d = new Date((item.dt + timezone) * 1000);
     const key = d.toISOString().slice(0, 10);
     if (!days[key]) {
-      days[key] = { dt: item.dt, temps: [], icons: [], descriptions: [] };
+      days[key] = { dt: item.dt, temps: [], icons: [], descriptions: [], pops: [] };
     }
     days[key].temps.push(item.main.temp);
     days[key].icons.push(item.weather[0].icon);
     days[key].descriptions.push(item.weather[0].main);
+    days[key].pops.push(item.pop || 0);
   });
 
   return Object.values(days).slice(0, 5).map(day => ({
@@ -94,5 +95,6 @@ export const getDailyForecasts = (list, timezone) => {
     tempMax: Math.max(...day.temps),
     icon: day.icons[Math.floor(day.icons.length / 2)],
     description: day.descriptions[Math.floor(day.descriptions.length / 2)],
+    pop: Math.max(...day.pops), // max precipitation probability for the day
   }));
 };

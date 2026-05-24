@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 import SearchBar from './components/SearchBar';
@@ -12,21 +12,25 @@ import WeatherBackground from './components/WeatherBackground';
 import { getBgClass, isNighttime } from './utils/weatherUtils';
 
 const DEFAULT_CITY = 'Karachi';
+const AUTO_REFRESH_MS = 10 * 60 * 1000; // 10 minutes
 
 function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('wn-theme') || 'dark');
   const [units, setUnits] = useState(() => localStorage.getItem('wn-units') || 'metric');
-  const [lowPerf, setLowPerf] = useState(() => localStorage.getItem('wn-lowperf') === 'true');
   const [cityInput, setCityInput] = useState(DEFAULT_CITY);
   const [currentWeather, setCurrentWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [aqi, setAqi] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(null);
   const [searchHistory, setSearchHistory] = useState(() => {
     try { return JSON.parse(localStorage.getItem('wn-history') || '[]'); }
     catch { return []; }
   });
+
+  // Keep a ref to the current city so the auto-refresh interval can access it
+  const currentCityRef = useRef(DEFAULT_CITY);
 
   const fetchAll = useCallback(async (city, unitSys) => {
     const u = unitSys || units;
@@ -43,6 +47,8 @@ function App() {
       setCurrentWeather(weatherRes.data);
       setForecast(forecastRes.data);
       setCityInput(weatherRes.data.name);
+      setLastUpdated(Date.now());
+      currentCityRef.current = weatherRes.data.name;
 
       const { lat, lon } = weatherRes.data.coord;
       axios.get('/api/aqi', { params: { lat, lon }, timeout: 15000 })
@@ -68,6 +74,16 @@ function App() {
 
   // Initial load
   useEffect(() => { fetchAll(DEFAULT_CITY); }, []); // eslint-disable-line
+
+  // Auto-refresh every 10 minutes when the tab is visible
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!document.hidden && currentCityRef.current) {
+        fetchAll(currentCityRef.current);
+      }
+    }, AUTO_REFRESH_MS);
+    return () => clearInterval(interval);
+  }, [fetchAll]);
 
   // Apply theme
   useEffect(() => {
@@ -104,8 +120,8 @@ function App() {
   const bgClass = getBgClass(condition, night);
 
   return (
-    <div className={`app ${bgClass} ${lowPerf ? 'low-perf' : ''}`} data-theme={theme}>
-      <WeatherBackground condition={condition} isNight={night} lowPerf={lowPerf} />
+    <div className={`app ${bgClass}`} data-theme={theme}>
+      <WeatherBackground condition={condition} isNight={night} />
 
       <div className="app-overlay" />
 
@@ -128,22 +144,9 @@ function App() {
               <span className={units === 'imperial' ? 'unit-active' : ''}>°F</span>
             </button>
             <button
-              className={`ctrl-btn theme-btn ${lowPerf ? 'low-perf-active' : ''}`}
-              onClick={() => {
-                const next = !lowPerf;
-                setLowPerf(next);
-                localStorage.setItem('wn-lowperf', next);
-              }}
-              title={lowPerf ? 'Battery Saver ON — click to disable' : 'Enable Battery Saver mode'}
-              id="low-perf-toggle-btn"
-              aria-label="Toggle low performance mode"
-            >
-              ⚡
-            </button>
-            <button
               className="ctrl-btn theme-btn"
               onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
-              title="Toggle theme"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               id="theme-toggle-btn"
               aria-label="Toggle dark/light mode"
             >
@@ -183,7 +186,12 @@ function App() {
         {/* ── Weather Content ── */}
         {currentWeather && (
           <main className="weather-content">
-            <CurrentWeather data={currentWeather} units={units} isLoading={isLoading} />
+            <CurrentWeather
+              data={currentWeather}
+              units={units}
+              isLoading={isLoading}
+              lastUpdated={lastUpdated}
+            />
 
             {forecast && (
               <HourlyForecast
