@@ -749,3 +749,59 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Skeleton Loading Shimmer ── */
+.skeleton-line, .skeleton-circle {
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+[data-theme="light"] .skeleton-line,
+[data-theme="light"] .skeleton-circle {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.skeleton-circle {
+  border-radius: 50% !important;
+}
+
+.skeleton-line::after,
+.skeleton-circle::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.15) 60%,
+    transparent 100%
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+[data-theme="light"] .skeleton-line::after,
+[data-theme="light"] .skeleton-circle::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(15, 23, 42, 0.03) 20%,
+    rgba(15, 23, 42, 0.07) 60%,
+    transparent 100%
+  );
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Disable shimmer animation in low performance mode */
+.low-perf .skeleton-line::after,
+.low-perf .skeleton-circle::after {
+  animation: none !important;
+}

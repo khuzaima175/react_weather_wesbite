@@ -9,6 +9,7 @@ import WeatherStats from './components/WeatherStats';
 import SunArc from './components/SunArc';
 import AQICard from './components/AQICard';
 import WeatherBackground from './components/WeatherBackground';
+import WeatherSkeleton from './components/WeatherSkeleton';
 import { getBgClass, isNighttime } from './utils/weatherUtils';
 
 const DEFAULT_CITY = 'Karachi';
@@ -188,14 +189,7 @@ function App() {
         )}
 
         {/* ── Loading (first load) ── */}
-        {isLoading && !currentWeather && (
-          <div className="loading-screen">
-            <div className="loader-ring">
-              <div /><div /><div /><div />
-            </div>
-            <p className="loading-text">Fetching weather data…</p>
-          </div>
-        )}
+        {isLoading && !currentWeather && <WeatherSkeleton />}
 
         {/* ── Weather Content ── */}
         {currentWeather && (
