@@ -17,6 +17,7 @@ const AUTO_REFRESH_MS = 10 * 60 * 1000; // 10 minutes
 function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('wn-theme') || 'dark');
   const [units, setUnits] = useState(() => localStorage.getItem('wn-units') || 'metric');
+  const [lowPerf, setLowPerf] = useState(true);
   const [cityInput, setCityInput] = useState(DEFAULT_CITY);
   const [currentWeather, setCurrentWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
@@ -120,8 +121,8 @@ function App() {
   const bgClass = getBgClass(condition, night);
 
   return (
-    <div className={`app ${bgClass}`} data-theme={theme}>
-      <WeatherBackground condition={condition} isNight={night} />
+    <div className={`app ${bgClass} ${lowPerf ? 'low-perf' : ''}`} data-theme={theme}>
+      <WeatherBackground condition={condition} isNight={night} lowPerf={lowPerf} />
 
       <div className="app-overlay" />
 
@@ -142,6 +143,19 @@ function App() {
               <span className={units === 'metric' ? 'unit-active' : ''}>°C</span>
               <span className="unit-sep">/</span>
               <span className={units === 'imperial' ? 'unit-active' : ''}>°F</span>
+            </button>
+            <button
+              className={`ctrl-btn theme-btn ${lowPerf ? 'low-perf-active' : ''}`}
+              onClick={() => {
+                const next = !lowPerf;
+                setLowPerf(next);
+                localStorage.setItem('wn-lowperf', next);
+              }}
+              title={lowPerf ? 'Battery Saver ON — click to disable' : 'Enable Battery Saver mode'}
+              id="low-perf-toggle-btn"
+              aria-label="Toggle low performance mode"
+            >
+              ⚡
             </button>
             <button
               className="ctrl-btn theme-btn"
