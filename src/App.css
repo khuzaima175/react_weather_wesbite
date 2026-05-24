@@ -34,6 +34,15 @@
 .bg-night   { background: linear-gradient(135deg,#0a0f1e 0%,#0f172a 50%,#1e1b4b 100%); }
 .bg-default { background: linear-gradient(135deg,#1e3a5f 0%,#1e40af 50%,#3b82f6 100%); }
 
+/* Light mode gets richer, more saturated sky-inspired gradients */
+[data-theme="light"] .bg-sunny   { background: linear-gradient(150deg,#ff9a3c 0%,#ffca5a 35%,#74b9f8 100%); }
+[data-theme="light"] .bg-cloudy  { background: linear-gradient(150deg,#6b93c4 0%,#a0b9d8 50%,#c9d8ea 100%); }
+[data-theme="light"] .bg-rain    { background: linear-gradient(150deg,#3a6ea8 0%,#5b8fc7 50%,#88afe0 100%); }
+[data-theme="light"] .bg-storm   { background: linear-gradient(150deg,#2d3f5c 0%,#4a5e7a 50%,#718ba8 100%); }
+[data-theme="light"] .bg-snow    { background: linear-gradient(150deg,#a8d0f5 0%,#cde2fa 50%,#e6f2ff 100%); }
+[data-theme="light"] .bg-fog     { background: linear-gradient(150deg,#b0bec5 0%,#cfd8dc 60%,#eceff1 100%); }
+[data-theme="light"] .bg-default { background: linear-gradient(150deg,#2563eb 0%,#3b82f6 50%,#7dd3fc 100%); }
+
 /* ── Animated Particles ── */
 .particles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
 
@@ -547,4 +556,114 @@
 .low-perf .logo-icon {
   filter: none !important;
   animation: none !important;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Light Theme Component Overrides
+   Makes the light theme look premium, colourful and readable
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Temperature text — white gradient is invisible on light bg, use a rich dark-blue gradient */
+[data-theme="light"] .cw-temp {
+  background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Current weather card — crisp white with a strong shadow for depth */
+[data-theme="light"] .current-weather-card {
+  background: rgba(255,255,255,0.82);
+  box-shadow: 0 8px 40px rgba(15,23,42,0.16), 0 1px 0 rgba(255,255,255,0.9) inset;
+}
+
+/* Glass cards — slightly more opaque with a proper shadow */
+[data-theme="light"] .glass-card {
+  background: rgba(255,255,255,0.80);
+  box-shadow: 0 4px 24px rgba(15,23,42,0.11), 0 1px 0 rgba(255,255,255,0.9) inset;
+}
+[data-theme="light"] .glass-card:hover {
+  background: rgba(255,255,255,0.94);
+  box-shadow: 0 8px 36px rgba(15,23,42,0.16);
+}
+
+/* Search bar */
+[data-theme="light"] .search-bar {
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 2px 16px rgba(15,23,42,0.10);
+}
+
+/* Quick stats strip at the bottom of the current weather card */
+[data-theme="light"] .cw-quick-stats {
+  background: rgba(15,23,42,0.04);
+  border: 1px solid rgba(15,23,42,0.06);
+}
+
+/* Hourly scroll cards */
+[data-theme="light"] .hourly-card {
+  background: rgba(255,255,255,0.55);
+  border-color: rgba(15,23,42,0.08);
+}
+[data-theme="light"] .hourly-now {
+  background: rgba(37,99,235,0.12);
+  border-color: rgba(37,99,235,0.35);
+}
+[data-theme="light"] .hourly-card:hover {
+  background: rgba(255,255,255,0.88);
+}
+
+/* Daily forecast rows */
+[data-theme="light"] .daily-row:hover {
+  background: rgba(15,23,42,0.04);
+}
+[data-theme="light"] .daily-today {
+  background: rgba(37,99,235,0.07);
+}
+
+/* Stat cards in the weather details grid */
+[data-theme="light"] .stat-card {
+  background: rgba(15,23,42,0.03);
+  border-color: rgba(15,23,42,0.07);
+}
+[data-theme="light"] .stat-card:hover {
+  background: rgba(15,23,42,0.07);
+}
+
+/* AQI bar track (was white-on-white in light mode) */
+[data-theme="light"] .aqi-bar {
+  background: rgba(15,23,42,0.10);
+}
+
+/* AQI pollutant chips */
+[data-theme="light"] .aqi-pollutant {
+  background: rgba(15,23,42,0.04);
+}
+
+/* Ctrl button hover in light mode */
+[data-theme="light"] .ctrl-btn {
+  background: rgba(255,255,255,0.80);
+  box-shadow: 0 2px 8px rgba(15,23,42,0.10);
+}
+[data-theme="light"] .ctrl-btn:hover {
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 4px 16px rgba(15,23,42,0.16);
+}
+
+/* Scroll buttons for hourly forecast */
+[data-theme="light"] .scroll-btn {
+  background: rgba(255,255,255,0.80);
+  border-color: rgba(15,23,42,0.10);
+}
+[data-theme="light"] .scroll-btn:hover {
+  background: rgba(255,255,255,1);
+}
+
+/* Search history dropdown */
+[data-theme="light"] .search-history {
+  background: rgba(255,255,255,0.96);
+  box-shadow: 0 8px 32px rgba(15,23,42,0.14);
+}
+[data-theme="light"] .history-item:hover,
+[data-theme="light"] .history-item--active {
+  background: rgba(37,99,235,0.07);
 }

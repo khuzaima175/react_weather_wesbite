@@ -27,20 +27,20 @@
 }
 
 [data-theme="light"] {
-  --bg-overlay: rgba(240,248,255,0.45);
-  --glass-bg: rgba(255,255,255,0.62);
-  --glass-border: rgba(0,0,0,0.09);
-  --glass-hover: rgba(255,255,255,0.82);
+  --bg-overlay: rgba(255, 255, 255, 0.10);
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-hover: rgba(255, 255, 255, 0.92);
   --text-primary: #0f172a;
-  --text-secondary: rgba(15,23,42,0.65);
-  --text-muted: rgba(15,23,42,0.4);
+  --text-secondary: rgba(15, 23, 42, 0.68);
+  --text-muted: rgba(15, 23, 42, 0.42);
   --accent: #2563eb;
   --accent-warm: #d97706;
-  --shadow: 0 8px 32px rgba(0,0,0,0.12);
-  --shadow-lg: 0 20px 60px rgba(0,0,0,0.18);
-  --scrollbar: rgba(0,0,0,0.12);
-  --error-bg: rgba(239,68,68,0.08);
-  --error-border: rgba(239,68,68,0.3);
+  --shadow: 0 4px 24px rgba(15, 23, 42, 0.13);
+  --shadow-lg: 0 16px 48px rgba(15, 23, 42, 0.20);
+  --scrollbar: rgba(0, 0, 0, 0.14);
+  --error-bg: rgba(239, 68, 68, 0.08);
+  --error-border: rgba(239, 68, 68, 0.3);
 }
 
 html { scroll-behavior: smooth; }
