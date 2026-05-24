@@ -142,7 +142,7 @@ function App() {
         <SearchBar
           value={cityInput}
           onChange={setCityInput}
-          onSearch={() => fetchAll(cityInput)}
+          onSearch={(query) => fetchAll(query)}
           onGeolocate={handleGeolocate}
           searchHistory={searchHistory}
           isLoading={isLoading}

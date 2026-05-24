@@ -6,10 +6,16 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
   const [suggestions, setSuggestions] = useState([]);
   const [isFetchingSuggestions, setIsFetchingSuggestions] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [inputValue, setInputValue] = useState(value);
 
   const inputRef   = useRef(null);
   const wrapperRef = useRef(null);
   const debounceRef = useRef(null);
+
+  // Sync internal input value when the value prop changes from parent
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -47,15 +53,15 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
 
   const handleInputChange = (e) => {
     const v = e.target.value;
-    onChange(v);
+    setInputValue(v);
     fetchSuggestions(v);
   };
 
   const handleFocus = () => {
-    if (!value || value.trim().length < 2) {
+    if (!inputValue || inputValue.trim().length < 2) {
       if (searchHistory.length > 0) setShowDropdown(true);
     } else {
-      fetchSuggestions(value);
+      fetchSuggestions(inputValue);
     }
   };
 
@@ -71,7 +77,8 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
       if (activeIndex >= 0 && items[activeIndex]) {
         selectItem(items[activeIndex].display || items[activeIndex].name || items[activeIndex]);
       } else {
-        onSearch();
+        onChange(inputValue);
+        onSearch(inputValue);
         setShowDropdown(false);
       }
     } else if (e.key === 'Escape') {
@@ -81,16 +88,17 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
   };
 
   const selectItem = (cityName) => {
+    setInputValue(cityName);
     onChange(cityName);
     setSuggestions([]);
     setShowDropdown(false);
     setActiveIndex(-1);
-    setTimeout(() => onSearch(), 0);
+    onSearch(cityName);
   };
 
   // Decide what to show in the dropdown
   const showSuggestions  = suggestions.length > 0;
-  const showHistory      = !showSuggestions && searchHistory.length > 0 && (!value || value.trim().length < 2);
+  const showHistory      = !showSuggestions && searchHistory.length > 0 && (!inputValue || inputValue.trim().length < 2);
   const dropdownVisible  = showDropdown && (showSuggestions || showHistory);
 
   return (
@@ -100,7 +108,7 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
         <input
           ref={inputRef}
           type="text"
-          value={value}
+          value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={handleFocus}
@@ -118,10 +126,16 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
         {isFetchingSuggestions && (
           <span className="search-loading-dot" title="Fetching suggestions…" />
         )}
-        {value && (
+        {inputValue && (
           <button
             className="search-clear"
-            onClick={() => { onChange(''); setSuggestions([]); setShowDropdown(false); inputRef.current?.focus(); }}
+            onClick={() => {
+              setInputValue('');
+              onChange('');
+              setSuggestions([]);
+              setShowDropdown(false);
+              inputRef.current?.focus();
+            }}
             aria-label="Clear search"
           >✕</button>
         )}
@@ -137,8 +151,12 @@ function SearchBar({ value, onChange, onSearch, onGeolocate, searchHistory, isLo
         </button>
         <button
           className="search-btn"
-          onClick={() => { onSearch(); setShowDropdown(false); }}
-          disabled={isLoading || !value.trim()}
+          onClick={() => {
+            onChange(inputValue);
+            onSearch(inputValue);
+            setShowDropdown(false);
+          }}
+          disabled={isLoading || !inputValue.trim()}
           id="search-submit-btn"
         >
           {isLoading ? <span className="spin">⟳</span> : 'Search'}
