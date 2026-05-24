@@ -558,112 +558,152 @@
   animation: none !important;
 }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   Light Theme Component Overrides
-   Makes the light theme look premium, colourful and readable
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PREMIUM LIGHT THEME — Full component-level design upgrade
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-/* Temperature text — white gradient is invisible on light bg, use a rich dark-blue gradient */
+/* ── Glass cards: subtle sky-gradient instead of flat white ── */
+[data-theme="light"] .glass-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.92) 0%, rgba(239,246,255,0.82) 100%);
+  border: 1px solid rgba(147,197,253,0.22);
+  box-shadow: 0 4px 28px rgba(15,23,42,0.10), 0 1px 0 rgba(255,255,255,1) inset;
+}
+[data-theme="light"] .glass-card:hover {
+  background: linear-gradient(145deg, rgba(255,255,255,0.98) 0%, rgba(239,246,255,0.92) 100%);
+  box-shadow: 0 10px 40px rgba(15,23,42,0.14);
+}
+
+/* ── Current weather: premium frosted-glass card ── */
+[data-theme="light"] .current-weather-card {
+  background: linear-gradient(150deg, rgba(255,255,255,0.95) 0%, rgba(219,234,254,0.78) 100%);
+  border: 1px solid rgba(147,197,253,0.24);
+  box-shadow: 0 12px 50px rgba(15,23,42,0.16), 0 1px 0 rgba(255,255,255,1) inset;
+}
+
+/* ── Temperature: bold ocean-depth gradient ── */
 [data-theme="light"] .cw-temp {
-  background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 45%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Current weather card — crisp white with a strong shadow for depth */
-[data-theme="light"] .current-weather-card {
-  background: rgba(255,255,255,0.82);
-  box-shadow: 0 8px 40px rgba(15,23,42,0.16), 0 1px 0 rgba(255,255,255,0.9) inset;
+/* ── Temp high/low: semantic amber & blue ── */
+[data-theme="light"] .temp-high { color: #b45309; }
+[data-theme="light"] .temp-low  { color: #1d4ed8; }
+
+/* ── Card section titles: gradient accent ── */
+[data-theme="light"] .card-title {
+  background: linear-gradient(90deg, #1e40af, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Glass cards — slightly more opaque with a proper shadow */
-[data-theme="light"] .glass-card {
-  background: rgba(255,255,255,0.80);
-  box-shadow: 0 4px 24px rgba(15,23,42,0.11), 0 1px 0 rgba(255,255,255,0.9) inset;
-}
-[data-theme="light"] .glass-card:hover {
-  background: rgba(255,255,255,0.94);
-  box-shadow: 0 8px 36px rgba(15,23,42,0.16);
-}
-
-/* Search bar */
-[data-theme="light"] .search-bar {
-  background: rgba(255,255,255,0.88);
-  box-shadow: 0 2px 16px rgba(15,23,42,0.10);
-}
-
-/* Quick stats strip at the bottom of the current weather card */
+/* ── Quick stats strip ── */
 [data-theme="light"] .cw-quick-stats {
-  background: rgba(15,23,42,0.04);
-  border: 1px solid rgba(15,23,42,0.06);
+  background: linear-gradient(135deg, rgba(239,246,255,0.80), rgba(238,242,255,0.65));
+  border: 1px solid rgba(147,197,253,0.18);
+  border-radius: var(--radius-sm);
 }
 
-/* Hourly scroll cards */
+/* ── Search bar: crisp white with blue-tinted glow ── */
+[data-theme="light"] .search-bar {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(147,197,253,0.28);
+  box-shadow: 0 4px 20px rgba(37,99,235,0.08);
+}
+[data-theme="light"] .search-bar:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12), 0 4px 20px rgba(37,99,235,0.10);
+}
+
+/* ── Hourly cards ── */
 [data-theme="light"] .hourly-card {
-  background: rgba(255,255,255,0.55);
-  border-color: rgba(15,23,42,0.08);
+  background: linear-gradient(160deg, rgba(255,255,255,0.75), rgba(239,246,255,0.55));
+  border: 1px solid rgba(147,197,253,0.18);
+  box-shadow: 0 2px 8px rgba(15,23,42,0.05);
 }
 [data-theme="light"] .hourly-now {
-  background: rgba(37,99,235,0.12);
-  border-color: rgba(37,99,235,0.35);
+  background: linear-gradient(160deg, rgba(219,234,254,0.85), rgba(199,210,254,0.65));
+  border-color: rgba(59,130,246,0.42);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.16);
 }
 [data-theme="light"] .hourly-card:hover {
-  background: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 4px 16px rgba(15,23,42,0.10);
 }
 
-/* Daily forecast rows */
-[data-theme="light"] .daily-row:hover {
-  background: rgba(15,23,42,0.04);
-}
-[data-theme="light"] .daily-today {
-  background: rgba(37,99,235,0.07);
-}
+/* ── Daily forecast rows ── */
+[data-theme="light"] .daily-row:hover { background: rgba(239,246,255,0.60); }
+[data-theme="light"] .daily-today     { background: rgba(37,99,235,0.07); border-left: 3px solid #2563eb; }
+[data-theme="light"] .daily-hi { color: #92400e; font-weight: 700; }
+[data-theme="light"] .daily-lo { color: #1e40af; }
 
-/* Stat cards in the weather details grid */
+/* ── Stat cards: colored left-border accent + lifted shadow ── */
 [data-theme="light"] .stat-card {
-  background: rgba(15,23,42,0.03);
-  border-color: rgba(15,23,42,0.07);
+  background: rgba(255,255,255,0.68);
+  border: 1px solid rgba(147,197,253,0.15);
+  border-left: 3px solid var(--stat-color, #60a5fa);
+  box-shadow: 0 2px 12px rgba(15,23,42,0.06);
 }
 [data-theme="light"] .stat-card:hover {
-  background: rgba(15,23,42,0.07);
+  background: rgba(255,255,255,0.92);
+  box-shadow: 0 6px 22px rgba(15,23,42,0.10);
+  transform: translateY(-2px);
 }
 
-/* AQI bar track (was white-on-white in light mode) */
-[data-theme="light"] .aqi-bar {
-  background: rgba(15,23,42,0.10);
-}
+/* ── AQI ── */
+[data-theme="light"] .aqi-bar        { background: rgba(15,23,42,0.10); }
+[data-theme="light"] .aqi-pollutant  { background: rgba(239,246,255,0.65); border: 1px solid rgba(147,197,253,0.15); }
 
-/* AQI pollutant chips */
-[data-theme="light"] .aqi-pollutant {
-  background: rgba(15,23,42,0.04);
-}
-
-/* Ctrl button hover in light mode */
+/* ── Ctrl buttons ── */
 [data-theme="light"] .ctrl-btn {
-  background: rgba(255,255,255,0.80);
-  box-shadow: 0 2px 8px rgba(15,23,42,0.10);
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(147,197,253,0.28);
+  box-shadow: 0 2px 10px rgba(15,23,42,0.08);
 }
 [data-theme="light"] .ctrl-btn:hover {
-  background: rgba(255,255,255,0.96);
-  box-shadow: 0 4px 16px rgba(15,23,42,0.16);
-}
-
-/* Scroll buttons for hourly forecast */
-[data-theme="light"] .scroll-btn {
-  background: rgba(255,255,255,0.80);
-  border-color: rgba(15,23,42,0.10);
-}
-[data-theme="light"] .scroll-btn:hover {
   background: rgba(255,255,255,1);
+  box-shadow: 0 4px 18px rgba(15,23,42,0.14);
 }
 
-/* Search history dropdown */
+/* ── Scroll buttons ── */
+[data-theme="light"] .scroll-btn {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(147,197,253,0.28);
+  box-shadow: 0 2px 6px rgba(15,23,42,0.06);
+}
+[data-theme="light"] .scroll-btn:hover { background: #fff; }
+
+/* ── Search history ── */
 [data-theme="light"] .search-history {
-  background: rgba(255,255,255,0.96);
-  box-shadow: 0 8px 32px rgba(15,23,42,0.14);
+  background: rgba(255,255,255,0.97);
+  border: 1px solid rgba(147,197,253,0.22);
+  box-shadow: 0 8px 36px rgba(15,23,42,0.14);
 }
 [data-theme="light"] .history-item:hover,
-[data-theme="light"] .history-item--active {
-  background: rgba(37,99,235,0.07);
+[data-theme="light"] .history-item--active { background: rgba(239,246,255,0.75); }
+
+/* ── Sun Arc SVG: make arc and labels visible on light bg ── */
+/* SVG presentation attributes can be overridden by author CSS */
+[data-theme="light"] .sun-arc-wrap path { stroke-opacity: 1; }
+[data-theme="light"] .sun-arc-wrap path:first-child { stroke: rgba(15,23,42,0.12) !important; }
+[data-theme="light"] .sun-arc-wrap line { stroke: rgba(15,23,42,0.10) !important; }
+[data-theme="light"] .sun-arc-wrap text { fill: rgba(15,23,42,0.45) !important; }
+
+/* ── Header logo ── */
+[data-theme="light"] .logo-text {
+  background: linear-gradient(135deg, #1d4ed8, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Mobile overrides: keep it opaque & readable with blur disabled ── */
+@media (max-width: 768px) {
+  [data-theme="light"] .glass-card,
+  [data-theme="light"] .current-weather-card {
+    background: rgba(255,255,255,0.95) !important;
+  }
 }
