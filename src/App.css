@@ -43,13 +43,13 @@
   width: 2px; background: rgba(147,197,253,0.55);
   border-radius: 2px;
   animation: rain-fall linear infinite;
-  will-change: transform;
+  will-change: transform, opacity;
 }
 @keyframes rain-fall {
-  0%   { transform: translateY(-20px) rotate(15deg); opacity: 0; }
+  0%   { transform: translate3d(0,-20px,0) rotate(15deg); opacity: 0; }
   10%  { opacity: 1; }
   90%  { opacity: 1; }
-  100% { transform: translateY(110vh) rotate(15deg); opacity: 0; }
+  100% { transform: translate3d(0,110vh,0) rotate(15deg); opacity: 0; }
 }
 
 /* Snow */
@@ -61,9 +61,9 @@
   will-change: transform;
 }
 @keyframes snow-fall {
-  0%   { transform: translateY(0) translateX(0) rotate(0deg); }
-  50%  { transform: translateY(50vh) translateX(30px) rotate(180deg); }
-  100% { transform: translateY(110vh) translateX(-20px) rotate(360deg); }
+  0%   { transform: translate3d(0,0,0) rotate(0deg); }
+  50%  { transform: translate3d(30px,50vh,0) rotate(180deg); }
+  100% { transform: translate3d(-20px,110vh,0) rotate(360deg); }
 }
 
 /* Stars */
@@ -96,17 +96,20 @@
   animation: sun-rotate 20s linear infinite;
   will-change: transform;
 }
-@keyframes sun-pulse  { 0%,100%{opacity:0.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.15)} }
-@keyframes sun-rotate { to { transform: translateX(-50%) rotate(360deg); } }
+@keyframes sun-pulse  { 0%,100%{opacity:0.6;transform:translate3d(-50%,0,0) scale(1)}50%{opacity:1;transform:translate3d(-50%,0,0) scale(1.15)} }
+@keyframes sun-rotate { to { transform: translate3d(-50%,0,0) rotate(360deg); } }
 
 /* Clouds */
+.cloud-container {
+  position: absolute; left: 0; top: 0;
+  animation: cloud-drift linear infinite;
+  will-change: transform;
+}
 .cloud-shape {
-  position: absolute; left: -200px;
   width: 200px; height: 80px;
   background: rgba(255,255,255,1);
   border-radius: 50px;
-  animation: cloud-drift linear infinite;
-  will-change: transform;
+  transform-origin: center center;
 }
 .cloud-shape::before,.cloud-shape::after {
   content:''; position:absolute;
@@ -115,7 +118,7 @@
 }
 .cloud-shape::before { width:100px;height:100px;top:-40px;left:30px; }
 .cloud-shape::after  { width:70px; height:70px; top:-25px;right:30px; }
-@keyframes cloud-drift { from{left:-250px} to{left:110%} }
+@keyframes cloud-drift { from{transform:translate3d(-250px,0,0)} to{transform:translate3d(110vw,0,0)} }
 
 /* Lightning */
 .lightning {
@@ -163,7 +166,7 @@
 }
 .logo { display: flex; align-items: center; gap: 10px; }
 .logo-icon { font-size: 2rem; animation: float 3s ease-in-out infinite; }
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes float { 0%,100%{transform:translate3d(0,0,0)} 50%{transform:translate3d(0,-6px,0)} }
 .logo-text { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg,#60a5fa,#a78bfa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 
 .header-controls { display: flex; align-items: center; gap: 10px; }
@@ -172,12 +175,20 @@
   border-radius: 50px; backdrop-filter: blur(12px);
   cursor: pointer; transition: all var(--transition);
   color: var(--text-primary); font-family: var(--font);
+  white-space: nowrap; flex-shrink: 0;
 }
-.ctrl-btn:hover { background: var(--glass-hover); transform: translateY(-1px); box-shadow: var(--shadow); }
+.ctrl-btn:hover { background: var(--glass-hover); transform: translate3d(0,-1px,0); box-shadow: var(--shadow); }
 .unit-btn { padding: 8px 16px; font-size: 0.9rem; font-weight: 600; }
 .theme-btn { padding: 8px 14px; font-size: 1.1rem; }
 .unit-active { color: var(--accent); }
 .unit-sep { opacity: 0.4; margin: 0 4px; }
+/* Low performance / battery saver button — active glow state */
+.low-perf-active {
+  background: rgba(251,191,36,0.18) !important;
+  border-color: rgba(251,191,36,0.55) !important;
+  box-shadow: 0 0 10px rgba(251,191,36,0.45) !important;
+  color: #fbbf24 !important;
+}
 
 /* ── Search Bar ── */
 .search-container { position: relative; margin-bottom: 28px; }
@@ -298,7 +309,7 @@
 .cw-icon-wrap { flex-shrink:0; }
 .cw-icon { font-size:5rem;display:block;line-height:1;animation:icon-bounce 3s ease-in-out infinite; will-change: transform; }
 .cw-icon-img { width:100px;height:100px;display:block;animation:icon-bounce 3s ease-in-out infinite;object-fit:contain; will-change: transform; }
-@keyframes icon-bounce { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(4deg)} }
+@keyframes icon-bounce { 0%,100%{transform:translate3d(0,0,0) rotate(0deg)} 50%{transform:translate3d(0,-8px,0) rotate(4deg)} }
 
 .cw-main { display:flex;align-items:center;gap:32px;margin-bottom:28px;flex-wrap:wrap; }
 .cw-temp-block { display:flex;align-items:baseline;gap:16px; }
@@ -379,6 +390,8 @@
 .sun-svg { width:100%;max-width:240px; }
 .sun-status { font-size:0.8rem;color:var(--text-secondary); }
 .sun-times { display:flex;align-items:center;justify-content:space-between;gap:8px; }
+/* On desktop, the row wrapper is transparent (inline flex) so the horizontal layout is preserved */
+.sun-times-row { display:contents; }
 .sun-time-item { display:flex;align-items:center;gap:8px; }
 .sun-time-icon { font-size:1.3rem; }
 .sun-time-label { display:block;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em; }
@@ -413,7 +426,7 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .app-content { padding:16px 14px 32px; }
+  .app-content { padding:16px 12px 32px; }
   .cw-icon { font-size:3.5rem; }
   .cw-icon-img { width:70px;height:70px; }
   .cw-temp { font-size:4rem; }
@@ -426,6 +439,13 @@
   .qs-divider { display:none; }
   .cw-quick-stats { gap:12px; }
   .logo-text { font-size:1.2rem; }
+  /* Compact header so controls don't overflow */
+  .app-header { gap:8px; }
+  .header-controls { gap:6px; }
+  .unit-btn { padding:7px 10px; font-size:0.78rem; }
+  .theme-btn { padding:7px 10px; font-size:1rem; }
+  .glass-card { padding:16px; }
+  .current-weather-card { padding:20px 16px; }
 
   /* Disable expensive backdrop blurs on mobile devices to prevent GPU lag */
   .glass-card,
@@ -439,30 +459,63 @@
   
   /* Increase background opacity slightly since blur is disabled, to maintain contrast and legibility */
   [data-theme="dark"] {
-    --glass-bg: rgba(30, 41, 59, 0.75); /* Sleek slate-800 color for card background in dark mode */
+    --glass-bg: rgba(30, 41, 59, 0.82);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-hover: rgba(51, 65, 85, 0.85);
   }
   
   [data-theme="light"] {
-    --glass-bg: rgba(255, 255, 255, 0.9); /* Opaque white */
+    --glass-bg: rgba(255, 255, 255, 0.92);
     --glass-border: rgba(0, 0, 0, 0.08);
-    --glass-hover: rgba(248, 250, 252, 0.95);
+    --glass-hover: rgba(248, 250, 252, 0.96);
   }
 
   /* Disable image drop-shadow calculations during bounce animation on mobile */
   .cw-icon, .cw-icon-img {
     filter: none !important;
   }
+
+  /* 5-day forecast row — prevent temp values from going off-screen */
+  .daily-row { gap:8px; padding:10px 4px; }
+  .daily-day { width:42px; font-size:0.85rem; }
+  .daily-desc { font-size:0.8rem; }
+  .daily-hi,.daily-lo { width:36px; font-size:0.82rem; }
+  .temp-bar-wrap { width:44px; }
+
+  /* Sun & Moon times — keep Sunrise/Sunset on same row, pill below */
+  .sun-times {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sun-times-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .sun-progress-pill { flex:unset; width:100%; }
+  .sun-progress-label { font-size:0.65rem; }
 }
 
 @media (max-width: 480px) {
+  .app-content { padding:12px 10px 28px; }
   .cw-temp { font-size:3.2rem; }
   .cw-icon-img { width:56px;height:56px; }
   /* 2-col stats on mobile */
   .stats-grid { grid-template-columns:1fr 1fr; }
+  .stat-card { padding:10px 8px; gap:8px; }
+  .stat-icon { font-size:1.2rem; }
+  .stat-value { font-size:0.88rem; }
+  .stat-sub { font-size:0.68rem; }
   .search-btn { padding:10px 14px;font-size:0.85rem; }
   .aqi-pollutants { grid-template-columns:1fr 1fr 1fr; }
+  /* Extra compact header for very small screens */
+  .logo-text { font-size:1.05rem; }
+  .unit-btn { padding:6px 8px; font-size:0.75rem; }
+  .theme-btn { padding:6px 8px; font-size:0.95rem; }
+  /* Hourly cards slightly smaller */
+  .hourly-card { padding:10px 12px; min-width:70px; }
+  .h-icon { font-size:1.35rem; }
 }
 
 /* ── Low Performance Mode Overrides ── */

@@ -128,13 +128,13 @@ function App() {
               <span className={units === 'imperial' ? 'unit-active' : ''}>°F</span>
             </button>
             <button
-              className={`ctrl-btn theme-btn ${lowPerf ? 'unit-active' : ''}`}
+              className={`ctrl-btn theme-btn ${lowPerf ? 'low-perf-active' : ''}`}
               onClick={() => {
                 const next = !lowPerf;
                 setLowPerf(next);
                 localStorage.setItem('wn-lowperf', next);
               }}
-              title="Toggle low performance mode (battery saver)"
+              title={lowPerf ? 'Battery Saver ON — click to disable' : 'Enable Battery Saver mode'}
               id="low-perf-toggle-btn"
               aria-label="Toggle low performance mode"
             >

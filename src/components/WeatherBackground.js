@@ -108,12 +108,15 @@ function Clouds({ isMobile }) {
   return (
     <div className="particles cloud-particles" aria-hidden="true">
       {clouds.map(c => (
-        <div key={c.id} className="cloud-shape" style={{
+        <div key={c.id} className="cloud-container" style={{
           top: c.top, animationDelay: c.delay,
           animationDuration: c.duration,
-          transform: `scale(${c.scale})`,
-          opacity: c.opacity,
-        }} />
+        }}>
+          <div className="cloud-shape" style={{
+            transform: `scale(${c.scale})`,
+            opacity: c.opacity,
+          }} />
+        </div>
       ))}
     </div>
   );

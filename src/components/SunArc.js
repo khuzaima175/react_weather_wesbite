@@ -60,23 +60,25 @@ function SunArc({ sunrise, sunset, current, timezone }) {
       </div>
 
       <div className="sun-times">
-        <div className="sun-time-item">
-          <span className="sun-time-icon">🌅</span>
-          <div>
-            <span className="sun-time-label">Sunrise</span>
-            <span className="sun-time-val">{formatTime(sunrise, timezone, 'time')}</span>
+        <div className="sun-times-row">
+          <div className="sun-time-item">
+            <span className="sun-time-icon">🌅</span>
+            <div>
+              <span className="sun-time-label">Sunrise</span>
+              <span className="sun-time-val">{formatTime(sunrise, timezone, 'time')}</span>
+            </div>
+          </div>
+          <div className="sun-time-item">
+            <span className="sun-time-icon">🌇</span>
+            <div>
+              <span className="sun-time-label">Sunset</span>
+              <span className="sun-time-val">{formatTime(sunset, timezone, 'time')}</span>
+            </div>
           </div>
         </div>
         <div className="sun-progress-pill">
           <div className="sun-progress-fill" style={{ width: `${pct}%` }} />
           <span className="sun-progress-label">{isDaytime ? `${pct}% of day` : 'After sunset'}</span>
-        </div>
-        <div className="sun-time-item">
-          <span className="sun-time-icon">🌇</span>
-          <div>
-            <span className="sun-time-label">Sunset</span>
-            <span className="sun-time-val">{formatTime(sunset, timezone, 'time')}</span>
-          </div>
         </div>
       </div>
     </div>
