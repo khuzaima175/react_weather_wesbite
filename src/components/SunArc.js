@@ -70,10 +70,10 @@ function SunArc({ sunrise, sunset, current, timezone }) {
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
-          
+
           {/* Background arc */}
           <path d={arcD} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="4" strokeDasharray="5 4" />
-          
+
           {/* Progress arc */}
           {progressD && (
             <path
