@@ -417,6 +417,8 @@
   background:rgba(255,255,255,0.08); border:1px solid var(--glass-border);
   color:var(--text-secondary);
 }
+.sun-status-badge.day { background:rgba(251,191,36,0.15); border-color:rgba(251,191,36,0.3); color:#fbbf24; }
+.sun-status-badge.night { background:rgba(168,85,247,0.15); border-color:rgba(168,85,247,0.3); color:#c084fc; }
 .sun-arc-wrap { display:flex; justify-content:center; margin:-4px 0 8px; }
 .sun-svg { width:100%; max-width:240px; overflow:visible; }
 
