@@ -150,6 +150,7 @@
   -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--shadow);
   padding: 24px;
+  overflow: hidden;
   transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
 }
 .glass-card:hover {
@@ -414,15 +415,15 @@
 .sun-arc-wrap { display:flex;justify-content:center;margin:-6px 0 12px; }
 .sun-svg { width:100%;max-width:240px; }
 .sun-status { font-size:0.8rem;color:var(--text-secondary); }
-.sun-times { display:flex;align-items:center;justify-content:space-between;gap:8px; }
+.sun-times { display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;overflow:hidden; }
 /* On desktop, the row wrapper is transparent (inline flex) so the horizontal layout is preserved */
 .sun-times-row { display:contents; }
-.sun-time-item { display:flex;align-items:center;gap:8px; }
+.sun-time-item { display:flex;align-items:center;gap:8px;flex-shrink:0; }
 .sun-time-icon { font-size:1.3rem; }
 .sun-time-label { display:block;font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em; }
 .sun-time-val { display:block;font-size:0.95rem;font-weight:700;color:var(--text-primary); }
-.sun-progress-pill { flex:1;background:rgba(255,255,255,0.08);border-radius:99px;height:6px;position:relative;overflow:hidden; }
-.sun-progress-fill { height:100%;background:linear-gradient(90deg,#f97316,#fbbf24);border-radius:99px;transition:width 0.8s ease; }
+.sun-progress-pill { flex:1;min-width:0;max-width:100%;background:rgba(255,255,255,0.08);border-radius:99px;height:6px;position:relative;overflow:hidden; }
+.sun-progress-fill { height:100%;max-width:100%;background:linear-gradient(90deg,#f97316,#fbbf24);border-radius:99px;transition:width 0.8s ease; }
 .sun-progress-label { position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:0.68rem;color:var(--text-muted);white-space:nowrap; }
 
 /* ── AQI Card ── */
