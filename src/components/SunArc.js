@@ -26,60 +26,71 @@ function SunArc({ sunrise, sunset, current, timezone }) {
     <div className="glass-card sun-card" id="sun-arc">
       <div className="card-header">
         <h2 className="card-title">🌅 Sun & Moon</h2>
-        <span className="sun-status">{isDaytime ? '☀️ Daytime' : '🌙 Nighttime'}</span>
+        <span className="sun-status-badge">{isDaytime ? '☀️ Daytime' : '🌙 Nighttime'}</span>
       </div>
 
       <div className="sun-arc-wrap">
-        <svg viewBox="0 0 240 130" className="sun-svg" aria-label="Sun position arc">
+        <svg viewBox="0 0 240 125" className="sun-svg" aria-label="Sun position arc">
           <defs>
             <linearGradient id="sunGrad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stopColor="#f97316" />
               <stop offset="100%" stopColor="#fbbf24" />
             </linearGradient>
+            <filter id="sunGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
           </defs>
-          {/* Background arc */}
-          <path d={arcD} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" strokeLinecap="round" />
+          {/* Background dashed arc */}
+          <path d={arcD} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="4" strokeDasharray="6 4" />
           {/* Progress arc */}
           {progressD && (
-            <path d={progressD} fill="none" stroke="url(#sunGrad)" strokeWidth="6" strokeLinecap="round" />
+            <path d={progressD} fill="none" stroke="url(#sunGrad)" strokeWidth="5" strokeLinecap="round" />
           )}
           {/* Horizon line */}
-          <line x1={cx - r - 10} y1={cy} x2={cx + r + 10} y2={cy} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" strokeDasharray="4 4" />
+          <line x1={cx - r - 12} y1={cy} x2={cx + r + 12} y2={cy} stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
           {/* Sun dot */}
           {isDaytime && (
-            <g>
-              <circle cx={sunX} cy={sunY} r="10" fill="rgba(251,191,36,0.25)" />
-              <circle cx={sunX} cy={sunY} r="6" fill="#fbbf24" />
+            <g filter="url(#sunGlow)">
+              <circle cx={sunX} cy={sunY} r="9" fill="rgba(251,191,36,0.3)" />
+              <circle cx={sunX} cy={sunY} r="5" fill="#fbbf24" />
+            </g>
+          )}
+          {/* Moon position if night */}
+          {!isDaytime && (
+            <g filter="url(#sunGlow)">
+              <circle cx={cx} cy={cy - r + 15} r="7" fill="#cbd5e1" />
             </g>
           )}
           {/* Sunrise label */}
-          <text x={cx - r} y={cy + 18} textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.5)">Rise</text>
+          <text x={cx - r} y={cy + 16} textAnchor="middle" fontSize="9" fontWeight="500" fill="rgba(255,255,255,0.5)">Rise</text>
           {/* Sunset label */}
-          <text x={cx + r} y={cy + 18} textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.5)">Set</text>
+          <text x={cx + r} y={cy + 16} textAnchor="middle" fontSize="9" fontWeight="500" fill="rgba(255,255,255,0.5)">Set</text>
         </svg>
       </div>
 
-      <div className="sun-times">
-        <div className="sun-times-row">
-          <div className="sun-time-item">
-            <span className="sun-time-icon">🌅</span>
-            <div>
-              <span className="sun-time-label">Sunrise</span>
-              <span className="sun-time-val">{formatTime(sunrise, timezone, 'time')}</span>
-            </div>
-          </div>
-          <div className="sun-time-item">
-            <span className="sun-time-icon">🌇</span>
-            <div>
-              <span className="sun-time-label">Sunset</span>
-              <span className="sun-time-val">{formatTime(sunset, timezone, 'time')}</span>
-            </div>
+      <div className="sun-details-grid">
+        <div className="sun-detail-card">
+          <span className="sun-detail-icon">🌅</span>
+          <div className="sun-detail-info">
+            <span className="sun-detail-label">Sunrise</span>
+            <span className="sun-detail-val">{formatTime(sunrise, timezone, 'time')}</span>
           </div>
         </div>
-        <div className="sun-progress-pill">
-          <div className="sun-progress-fill" style={{ width: `${pct}%` }} />
-          <span className="sun-progress-label">{isDaytime ? `${pct}% of day` : 'After sunset'}</span>
+
+        <div className="sun-detail-card">
+          <span className="sun-detail-icon">🌇</span>
+          <div className="sun-detail-info">
+            <span className="sun-detail-label">Sunset</span>
+            <span className="sun-detail-val">{formatTime(sunset, timezone, 'time')}</span>
+          </div>
         </div>
+      </div>
+
+      <div className="sun-footer-info">
+        <span className="sun-footer-text">
+          {isDaytime ? `Day Progress: ${pct}%` : 'Sun is currently below horizon'}
+        </span>
       </div>
     </div>
   );
